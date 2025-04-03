@@ -1,0 +1,8 @@
+python-dotenv
+cassio
+numpy
+pandas
+langchain-core
+langgraph
+transformers
+typing-extensions
