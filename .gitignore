@@ -1,2 +1,8 @@
 .venv
+<<<<<<< Updated upstream
 .env
+=======
+.env
+Dataset/
+.env.example
+>>>>>>> Stashed changes
