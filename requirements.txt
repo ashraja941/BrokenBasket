@@ -6,3 +6,4 @@ langchain-core
 langgraph
 transformers
 typing-extensions
+ipywidgets
