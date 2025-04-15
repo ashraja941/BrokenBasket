@@ -6,6 +6,7 @@ langgraph==0.1.1
 pydantic>=1.10.13,<2
 langchain-community==0.2.5
 langchain-anthropic==0.1.16
+
 cassio
 langchain_groq==0.1.10
 langchain_huggingface==0.0.3

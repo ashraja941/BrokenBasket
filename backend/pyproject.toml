@@ -16,15 +16,19 @@ pymongo = "^4.6.3"
 python-dotenv = "^1.0.1"
 motor = "^3.4.0"
 langgraph = "^0.0.62"
-langserve = { version = "^0.2.1", extras = ["all"] }
-fastapi = ">=0.110.2,<1"
-uvicorn = ">=0.23.2,<0.24.0"
+langserve = { version = "0.2.1", extras = ["all"] }
+fastapi = "0.110.3"
+uvicorn = "0.23.2"
 pydantic = ">=1.10.13,<2"
 rich = "^13.7.1"
 langchain-community = "^0.2.3"
 unstructured = {extras = ["all-docs"], version = "^0.13.4"}
 langgraph-cli = "^0.1.46"
 langchain-anthropic = "^0.1.16"
+cassio = "0.1.10"
+langchain_groq = "0.1.10"
+langchain_huggingface = "0.0.3"
+
 
 [tool.poetry.scripts]
 start = "gen_ui_backend.server:start"
