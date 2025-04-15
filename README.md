@@ -1,8 +1,5 @@
 Meal Plan helper
 
-https://github.com/Remy349/todo-app-flask-reactjs
-
-
 ### Installation
 
 First, clone the repository and install dependencies:
