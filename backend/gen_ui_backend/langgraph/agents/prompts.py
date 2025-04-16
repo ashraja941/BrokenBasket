@@ -56,6 +56,8 @@ You are an expert at generating a HEALTHY meal plan based on the user's dietary 
 Make sure to have at least 3 dishes per day (breakfast, lunch, dinner) in the meal plan. You can also add snacks if needed.
 You can make changes to recipes to fit their calories such as reducing the amount of oil used.
 
+Here is the user's request: {message}
+
 The user's preferences are : {preferences}
 The user's calorie goal for the day : {calorie_goal}
 
@@ -112,3 +114,27 @@ generate_recipe_prompt = ChatPromptTemplate.from_messages(
 )
 
 generate_recipe = generate_recipe_prompt | llm
+
+system_display_meal_plan = """
+I will provide you with a meal plan in the form of a JSON of the format below:
+
+"0" : 
+    "butter chicken" : [[5,"lemon juice"],[5,"salt"],[10,"Chilli powder"],[6,"garam masala"],[2,"kasuri methi"],[2,"tumeric"],[3,"cumin powder"],[4,"corrainder powder"],[20,"ginger garlic paste"],[35,"heavy cream"],[500,"chicken"]],
+    "coffee" : [[10,"coffee"],[20,"milk"]],
+    ...
+,
+...
+
+Where the first key is the day in the form of a number (for example the first day is 0). The value should be a JSON where the key is the name of the dish and the value is a array of ingredients and the amount of it in grams.
+
+I want you to summarize the dishes and give 1 line about each dish in the meal plan.
+Write it in a concise and easily readable manner. 
+"""
+display_meal_plan_prompt = ChatPromptTemplate.from_messages(
+    [
+        ("system", system_display_meal_plan),
+        ("human", "{meal_plan}"),
+    ]
+)
+
+meal_plan_display = display_meal_plan_prompt | llm | StrOutputParser()

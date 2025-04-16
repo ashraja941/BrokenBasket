@@ -1,5 +1,5 @@
 from langchain_core.messages import RemoveMessage
-from gen_ui_backend.langgraph.agents.prompts import general_chat,tool_router,generate_meal_plan,generate_recipe,general_router
+from gen_ui_backend.langgraph.agents.prompts import general_chat,tool_router,generate_meal_plan,generate_recipe,general_router,meal_plan_display
 from gen_ui_backend.utils.config import llm,recipe_retriever,ingredients_db
 from gen_ui_backend.utils.helpers import get_bert_embeddings,cosine
 
@@ -141,8 +141,6 @@ def meal_plan_generator(state):
             print("TRY AGAIN")
             if i == 4:
                 print("---FAILED TOO MANY DAMN TIMES---")
-    print("meal_plan generated for : ",len(meal_plan))
-
     return ({"meal_plan": meal_plan})
 
 def general(state):
@@ -197,7 +195,8 @@ def display_meal_plan(state):
     print("---DISPLAY MEAL PLAN---")
     print("meal plan: ",state['meal_plan'])
     print("current calories: ",state['current_calories'])
-    return state
+    return_message = meal_plan_display.invoke({"meal_plan": state['meal_plan']})
+    return {"messages" : return_message}
 
 def create_user(state):
     print(state["messages"])
