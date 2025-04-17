@@ -1,21 +1,19 @@
-import Chat from "@/components/prebuilt/chat";
+// app/page.tsx
+"use client";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Dashboard() {
+  const router = useRouter();
+
   return (
-    <main className="flex h-screen flex-col items-center justify-between px-24">
-      <div className="w-full min-w-[600px] flex flex-col gap-4">
-        <p className="text-[28px] text-center font-medium">
-          Generative UI with{" "}
-          <a
-            href="https://github.com/langchain-ai/langchainjs"
-            target="_blank"
-            className="text-blue-600 hover:underline hover:underline-offset-2"
-          >
-            LangChain Python 🦜🔗
-          </a>
-        </p>
-        <Chat />
-      </div>
+    <main className="flex flex-col items-center justify-center h-screen gap-6">
+      <h1 className="text-3xl font-semibold">Dashboard</h1>
+      <button
+        onClick={() => router.push("/chat")}
+        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+      >
+        Go to Chat Page
+      </button>
     </main>
   );
 }
