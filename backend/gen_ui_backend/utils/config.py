@@ -27,7 +27,7 @@ ASTRA_DB_ID = os.getenv("ASTRA_DB_ID")
 
 print("SERVER : Loading preprocessed dataset...")
 # ingredients_db = pkl.load(open('Dataset/preprocessed_data_with_embeddings.pkl', 'rb'))
-ingredients_db = pkl.load(open('D:\TAMU\SEM 4\CNM\gen-ui-python\Dataset\calories_embedded.pkl', 'rb'))
+ingredients_db = pkl.load(open('..\Dataset\calories_embedded.pkl', 'rb'))
 
 
 print("SERVER : Initializing vectorized Database...")

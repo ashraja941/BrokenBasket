@@ -33,6 +33,6 @@ def start() -> None:
 
     runnable = graph.with_types(input_type=ChatInputType, output_type=dict)
 
-    add_routes(app, runnable, path="/chat", playground_type="chat")
+    add_routes(app, runnable, path="/chat", playground_type="default")
     print("Starting server...")
     uvicorn.run(app, host="0.0.0.0", port=8000)
