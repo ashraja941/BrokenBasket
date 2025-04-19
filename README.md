@@ -5,9 +5,9 @@ Meal Plan helper
 First, clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/bracesproul/gen-ui-python.git
+git clone https://github.com/ashraja941/BrokenBasket.git
 
-cd gen-ui-python
+cd BrokenBasket
 ```
 
 Install dependencies in the `frontend` and `backend` directories:
