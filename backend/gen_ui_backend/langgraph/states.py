@@ -4,6 +4,13 @@ from langchain_core.pydantic_v1 import BaseModel, Field
 from typing_extensions import TypedDict
 from langgraph.graph import add_messages
 
+class MealPlanState(BaseModel):
+    """ Represents the state of a meal plan """
+    store : dict = Field(
+        default_factory=dict,
+        description="A dictionary to store meal plan information"
+    )
+
 class GeneralRouteQuery(BaseModel):
     """ Route a user query to the most relavent datasource """
     datasource: Literal["food","general"] = Field(

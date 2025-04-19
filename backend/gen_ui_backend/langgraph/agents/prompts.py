@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser,JsonOutputParser
 
-from gen_ui_backend.langgraph.states import GeneralRouteQuery,ToolRouteQuery
+from gen_ui_backend.langgraph.states import GeneralRouteQuery,ToolRouteQuery,MealPlanState
 from gen_ui_backend.utils.config import llm
 
 # General router Prompt
@@ -99,7 +99,7 @@ generate_meal_plan_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-generate_meal_plan = generate_meal_plan_prompt | llm | JsonOutputParser()
+generate_meal_plan = generate_meal_plan_prompt | llm.with_structured_output(MealPlanState)
 
 system_recipe_generation = """" 
 You are an expert at generating a recipe based on a user's input such as calorie goal and food preferences.

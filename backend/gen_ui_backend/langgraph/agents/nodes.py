@@ -103,12 +103,12 @@ def tool_route(state):
     
 def meal_plan_retriever(state):
     """"
-    Create a meal plan
+    Retrieve documents about the user's preferences
     Args:
         state (dict): The current graph state
 
     Returns:
-        state (dict): The current graph state with the meal plan added
+        state (dict): The current graph state with the documents about the user's preferences added
     
     """
     print("---MEAL PLANNER RETRIEVER---")
@@ -122,26 +122,20 @@ def meal_plan_generator(state):
         state (dict): The current graph state
 
     Returns:
-        state (dict): The current graph state with the meal plan added
+        state (dict): Added meal plan to the state
     
     """
+    redo = state["redo"]
     print("---MEAL PLANNER GENERATOR---")  
-    for i in range(5):
-        try: 
-            if state["redo"] == False:
-                meal_plan = generate_meal_plan.invoke({"preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "documents": state["documents"],"message": state["messages"][-1].content})
-                break
-            else:
-                message = state["messages"][-1].content + " with lower calories, make sure that there are at least 3 meals in a day"
-                print(message)
-                meal_plan = generate_meal_plan.invoke({"preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "documents": state["documents"],"message": message})
-                break
-        except:
-            print("---MEAL PLANNER GENERATOR FAILED---")
-            print("TRY AGAIN")
-            if i == 4:
-                print("---FAILED TOO MANY DAMN TIMES---")
-    return ({"meal_plan": meal_plan})
+    if redo == False:
+        meal_plan = generate_meal_plan.invoke({"preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "documents": state["documents"],"message": state["messages"][-1].content})
+    else:
+        corrected_message = state["messages"][-1].content + " with lower calories, make sure that there are at least 3 meals in a day"
+        print(corrected_message)
+        meal_plan = generate_meal_plan.invoke({"preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "documents": state["documents"],"message": corrected_message})
+    print(meal_plan)
+    print(meal_plan.store)
+    return ({"meal_plan": meal_plan.store})
 
 def general(state):
     print("reached general state")
