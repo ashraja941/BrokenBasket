@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Navbar from "../components/navbar";
 
 type MealData = {
   name: string;
@@ -84,12 +85,17 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="min-h-screen bg-pink-100 px-4 py-6 relative overflow-visible">
-      <header className="flex justify-between items-center px-6">
-        <h1 className="text-4xl font-cursive italic text-gray-800">Current Meal Plan</h1>
-        <button className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 text-sm font-semibold shadow-md">
+    <>
+  <Navbar />
+  <main className="min-h-screen bg-pink-100 px-4 py-6 relative overflow-visible">
+      <header className="flex justify-between items-center px-6 mt-5">
+      <h1 className="text-4xl font-cursive italic text-gray-800 text-center w-full">
+        Current Meal Plan
+      </h1>
+
+        {/* <button className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 text-sm font-semibold shadow-md">
           ➕ Add new meal plan
-        </button>
+        </button> */}
       </header>
 
       <div className="relative mt-16 mb-16 min-h-[420px] flex items-center justify-center">
@@ -217,5 +223,6 @@ export default function Dashboard() {
         </div>
       )}
     </main>
+    </>
   );
 }

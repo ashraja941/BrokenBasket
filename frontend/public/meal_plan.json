@@ -1,0 +1,125 @@
+{
+    "0": {
+      "Spicy Chicken Fajitas": [
+        [200, "chicken breast"],
+        [100, "bell peppers"],
+        [100, "onions"],
+        [20, "chilli powder"],
+        [10, "cumin"],
+        [10, "paprika"],
+        [5, "salt"],
+        [5, "pepper"],
+        [20, "tortillas"]
+      ],
+      "Coffee": [
+        [10, "coffee"],
+        [20, "milk"]
+      ],
+      "Spicy Vegetable Soup": [
+        [100, "carrots"],
+        [100, "potatoes"],
+        [100, "zucchini"],
+        [20, "chilli powder"],
+        [10, "cumin"],
+        [10, "paprika"],
+        [5, "salt"],
+        [5, "pepper"],
+        [400, "vegetable broth"]
+      ]
+    },
+    "1": {
+      "Avocado Toast": [
+        [150, "whole grain bread"],
+        [100, "avocado"],
+        [10, "lemon juice"],
+        [5, "chili flakes"]
+      ],
+      "Quinoa Salad": [
+        [200, "cooked quinoa"],
+        [100, "cucumbers"],
+        [100, "tomatoes"],
+        [50, "feta cheese"],
+        [20, "olive oil"],
+        [5, "salt"],
+        [5, "pepper"]
+      ],
+      "Grilled Salmon": [
+        [250, "salmon filet"],
+        [100, "asparagus"],
+        [50, "brown rice"],
+        [10, "lemon juice"],
+        [5, "garlic"]
+      ]
+    },
+    "2": {
+      "Oatmeal with Berries": [
+        [150, "rolled oats"],
+        [100, "mixed berries"],
+        [20, "honey"],
+        [50, "almond milk"]
+      ],
+      "Chickpea Wrap": [
+        [200, "whole wheat wrap"],
+        [150, "cooked chickpeas"],
+        [50, "spinach"],
+        [30, "hummus"],
+        [10, "lemon juice"]
+      ],
+      "Veggie Stir Fry": [
+        [150, "broccoli"],
+        [100, "carrots"],
+        [100, "bell peppers"],
+        [50, "tofu"],
+        [20, "soy sauce"],
+        [10, "ginger"],
+        [5, "garlic"]
+      ]
+    },
+    "3": {
+      "Greek Yogurt Parfait": [
+        [100, "greek yogurt"],
+        [100, "granola"],
+        [100, "blueberries"],
+        [20, "honey"]
+      ],
+      "Turkey Sandwich": [
+        [200, "whole grain bread"],
+        [100, "turkey slices"],
+        [50, "lettuce"],
+        [50, "tomato"],
+        [30, "mustard"]
+      ],
+      "Pasta Alfredo": [
+        [250, "pasta"],
+        [100, "alfredo sauce"],
+        [50, "mushrooms"],
+        [30, "parmesan cheese"]
+      ]
+    },
+    "4": {
+      "Smoothie Bowl": [
+        [100, "banana"],
+        [100, "strawberries"],
+        [50, "almond milk"],
+        [20, "chia seeds"],
+        [20, "granola"]
+      ],
+      "Lentil Soup": [
+        [200, "lentils"],
+        [100, "carrots"],
+        [100, "celery"],
+        [500, "vegetable broth"],
+        [5, "cumin"],
+        [5, "salt"],
+        [5, "pepper"]
+      ],
+      "Stuffed Bell Peppers": [
+        [200, "bell peppers"],
+        [150, "ground turkey"],
+        [100, "brown rice"],
+        [50, "tomato sauce"],
+        [30, "cheddar cheese"]
+      ]
+    }
+  }
+  
