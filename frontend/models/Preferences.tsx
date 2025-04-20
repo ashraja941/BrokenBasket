@@ -11,6 +11,7 @@ const PreferencesSchema = new mongoose.Schema({
     },
     preferences: [String],
     daysUntilCheatDay: { type: Number, default: 1 },
+    mealPlan: { type: JSON },
   });
 
 export default mongoose.models.Preferences ||

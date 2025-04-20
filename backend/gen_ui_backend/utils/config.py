@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from uuid import uuid4
 import pickle as pkl
 import cassio
-
+from pymongo import MongoClient,errors
 
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.vectorstores import Cassandra
@@ -46,6 +46,27 @@ recipe_retriever = astra_vector_store.as_retriever(
                                                 search_type="similarity_score_threshold",
                                                 search_kwargs={"k": 7, "score_threshold": 0.6},
                                                 )   
+
+print("SERVER : Connecting to MongoDB...")
+try:
+    mongodb_uri = os.environ.get('MONGODB_URI')
+    if not mongodb_uri:
+        raise ValueError("MONGODB_URI environment variable not set")
+        
+    client = MongoClient(mongodb_uri)
+    db = client['test']
+    mongodb_collection = db['preferences']
+
+    print(mongodb_collection.find_one({"userId": "medhamajumdar1"}))  # Test the connection by fetching one document
+
+except errors.ConnectionFailure as e:
+    print(f"Could not connect to MongoDB: {e}")
+except Exception as e:
+    print(f"An error occurred: {e}")
+# finally:
+#     if 'client' in locals():
+#         client.close()
+#         print("MongoDB connection closed")
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
