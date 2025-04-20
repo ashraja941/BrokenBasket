@@ -25,6 +25,17 @@
         [5, "salt"],
         [5, "pepper"],
         [400, "vegetable broth"]
+      ],
+      "Spicy Vegetable Sou": [
+        [100, "carrots"],
+        [100, "potatoes"],
+        [100, "zucchini"],
+        [20, "chilli powder"],
+        [10, "cumin"],
+        [10, "paprika"],
+        [5, "salt"],
+        [5, "pepper"],
+        [400, "vegetable broth"]
       ]
     },
     "1": {
@@ -42,13 +53,6 @@
         [20, "olive oil"],
         [5, "salt"],
         [5, "pepper"]
-      ],
-      "Grilled Salmon": [
-        [250, "salmon filet"],
-        [100, "asparagus"],
-        [50, "brown rice"],
-        [10, "lemon juice"],
-        [5, "garlic"]
       ]
     },
     "2": {

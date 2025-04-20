@@ -137,31 +137,24 @@ export default function Dashboard() {
                   {!isGhost && (
                     <>
                       <h2 className="text-xl font-bold mb-4 text-center text-gray-700">{day}</h2>
-                      {["Breakfast", "Lunch", "Dinner"].map((slot) => {
-                        const meal = mealPlan[day][slot as keyof DailyMeal];
-                        return (
-                          meal && (
-                            <div key={slot} className="mb-6 w-full">
-                              <h3 className="text-pink-600 font-semibold mb-1">{slot}</h3>
-                              <div
-                                className="rounded-xl bg-white p-3 shadow-inner border border-pink-300 cursor-pointer hover:bg-pink-50"
-                                onClick={() =>
-                                  setSelectedMeal({
-                                    day,
-                                    time: slot,
-                                    data: meal,
-                                  })
-                                }
-                              >
-                                <p className="font-semibold text-sm text-gray-800">{meal.name}</p>
-                                <p className="text-xs text-gray-500">
-                                  {meal.calories} kcal
-                                </p>
-                              </div>
-                            </div>
-                          )
-                        );
-                      })}
+                      {Object.entries(mealPlan[day]).map(([_, mealData], index) => (
+                        <div key={index} className="mb-6 w-full">
+                          <h3 className="text-blue-600 font-semibold mb-1">Meal {index + 1}</h3>
+                          <div
+                            className="rounded-xl bg-gray-50 p-3 shadow-inner border border-gray-300 cursor-pointer hover:bg-gray-200"
+                            onClick={() =>
+                              setSelectedMeal({
+                                day,
+                                time: `Meal ${index + 1}`,
+                                data: mealData,
+                              })
+                            }
+                          >
+                            <p className="font-semibold text-sm text-gray-800">{mealData.name}</p>
+                            <p className="text-xs text-gray-500">{mealData.calories} kcal</p>
+                          </div>
+                        </div>
+                      ))}
                     </>
                   )}
                 </div>
@@ -206,7 +199,7 @@ export default function Dashboard() {
             <ul className="list-disc ml-6 text-sm">
               {selectedMeal.data.ingredients.map((ingredient, index) => (
                 <li key={index}>
-                  {ingredient.name}: {ingredient.calories} kcal
+                  {ingredient.name}: {ingredient.calories} g
                 </li>
               ))}
             </ul>
