@@ -43,21 +43,20 @@ export default function Dashboard() {
           const mealKeys = Object.keys(meals);
           parsed[dayLabel] = {};
 
-          mealKeys.forEach((mealName, i) => {
-            const slot = ["Breakfast", "Lunch", "Dinner"][i % 3];
+          mealKeys.forEach((mealName) => {
             const ingredients = meals[mealName].map((i: any[]) => ({
               name: i[1],
               calories: i[0],
             }));
-            
-            const calories = meals[mealName].reduce((sum: number, item: any[]) => sum + item[0], 0);
-
-            parsed[dayLabel][slot] = {
+            const calories = ingredients.reduce((sum: number, item) => sum + item.calories, 0);
+          
+            parsed[dayLabel][mealName] = {
               name: mealName,
               calories,
               ingredients,
             };
           });
+          
         });
 
         setMealPlan(parsed);
@@ -151,7 +150,7 @@ export default function Dashboard() {
                             }
                           >
                             <p className="font-semibold text-sm text-gray-800">{mealData.name}</p>
-                            <p className="text-xs text-gray-500">{mealData.calories} kcal</p>
+                            {/* <p className="text-xs text-gray-500">{mealData.calories} kcal</p> */}
                           </div>
                         </div>
                       ))}
@@ -190,9 +189,6 @@ export default function Dashboard() {
               ×
             </button>
             <h2 className="text-xl font-bold mb-2">{selectedMeal.data.name}</h2>
-            <p className="mb-2">
-              <strong>Calories:</strong> {selectedMeal.data.calories} kcal
-            </p>
             <p className="mb-2">
               <strong>Ingredients:</strong>
             </p>
