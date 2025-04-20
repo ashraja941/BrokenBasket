@@ -6,27 +6,29 @@ import { Button } from "../ui/button";
 import { EndpointsContext } from "@/app/agent";
 import { useActions } from "@/utils/client";
 import { LocalContext } from "@/app/shared";
-import { RemoteRunnable } from "@langchain/core/runnables/remote";
-import { Github, GithubLoading } from "./github";
-import { Invoice, InvoiceLoading } from "./invoice";
-import { CurrentWeather, CurrentWeatherLoading } from "./weather";
-import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { StreamEvent } from "@langchain/core/tracers/log_stream";
 import { AIMessage } from "@/ai/message";
 import { HumanMessageText } from "./message";
 
-export interface ChatProps {}
+// Typing indicator animation
+function TypingIndicator() {
+  return (
+    <div className="ml-2 mt-2 w-fit flex gap-1 items-center text-gray-500 text-sm">
+      <span className="dot w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0s" }} />
+      <span className="dot w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+      <span className="dot w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+    </div>
+  );
+}
 
 function convertFileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
       const base64String = reader.result as string;
-      resolve(base64String.split(",")[1]); // Remove the data URL prefix
+      resolve(base64String.split(",")[1]);
     };
-    reader.onerror = (error) => {
-      reject(error);
-    };
+    reader.onerror = (error) => reject(error);
     reader.readAsDataURL(file);
   });
 }
@@ -46,60 +48,72 @@ export default function Chat() {
   const [history, setHistory] = useState<[role: string, content: string][]>([]);
   const [input, setInput] = useState("");
   const [selectedFile, setSelectedFile] = useState<File>();
+  const [isTyping, setIsTyping] = useState(false);
 
   async function onSubmit(input: string) {
     const newElements = [...elements];
-    let base64File: string | undefined = undefined;
+
+    let base64File: string | undefined;
     let fileExtension = selectedFile?.type.split("/")[1];
     if (selectedFile) {
       base64File = await convertFileToBase64(selectedFile);
     }
+
+    // Push user input and loading dots immediately
+    const tempKey = history.length;
+    newElements.push(
+      <div className="flex flex-col w-full gap-1 mt-auto" key={`temp-${tempKey}`}>
+        {selectedFile && <FileUploadMessage file={selectedFile} />}
+        <HumanMessageText content={input} />
+        <TypingIndicator />
+      </div>
+    );
+    setElements(newElements);
+    setIsTyping(true);
+
     const element = await actions.agent({
       input,
       chat_history: history,
       file:
         base64File && fileExtension
-          ? {
-              base64: base64File,
-              extension: fileExtension,
-            }
+          ? { base64: base64File, extension: fileExtension }
           : undefined,
     });
 
-    newElements.push(
-      <div className="flex flex-col w-full gap-1 mt-auto" key={history.length}>
+    setIsTyping(false); // Done typing
+
+    // Replace typing dots with real output
+    newElements[tempKey] = (
+      <div className="flex flex-col w-full gap-1 mt-auto" key={tempKey}>
         {selectedFile && <FileUploadMessage file={selectedFile} />}
         <HumanMessageText content={input} />
         <div className="flex flex-col gap-1 w-full max-w-fit mr-auto">
           {element.ui}
         </div>
-      </div>,
+      </div>
     );
 
-    // consume the value stream to obtain the final string value
-    // after which we can append to our chat history state
+    // Parse final AI message for chat history
     (async () => {
-      let lastEvent = await element.lastEvent;
+      const lastEvent = await element.lastEvent;
+
       if (Array.isArray(lastEvent)) {
-        if (lastEvent[0].invoke_model && lastEvent[0].invoke_model.result) {
+        if (lastEvent[0].invoke_model?.result) {
           setHistory((prev) => [
             ...prev,
             ["human", input],
             ["ai", lastEvent[0].invoke_model.result],
           ]);
-        } else if (lastEvent[1].invoke_tools) {
+        } else if (lastEvent[1]?.invoke_tools) {
           setHistory((prev) => [
             ...prev,
             ["human", input],
-            [
-              "ai",
-              `Tool result: ${JSON.stringify(lastEvent[1].invoke_tools.tool_result, null)}`,
-            ],
+            ["ai", `Tool result: ${JSON.stringify(lastEvent[1].invoke_tools.tool_result)}`],
           ]);
         } else {
           setHistory((prev) => [...prev, ["human", input]]);
         }
-      } else if (lastEvent.invoke_model && lastEvent.invoke_model.result) {
+      } else if (lastEvent?.invoke_model?.result) {
         setHistory((prev) => [
           ...prev,
           ["human", input],
@@ -108,7 +122,7 @@ export default function Chat() {
       }
     })();
 
-    setElements(newElements);
+    setElements([...newElements]);
     setInput("");
     setSelectedFile(undefined);
   }
@@ -118,9 +132,9 @@ export default function Chat() {
       <LocalContext.Provider value={onSubmit}>
         <div className="flex flex-col w-full gap-1 mt-auto">{elements}</div>
       </LocalContext.Provider>
+
       <form
         onSubmit={async (e) => {
-          e.stopPropagation();
           e.preventDefault();
           await onSubmit(input);
         }}

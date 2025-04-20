@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../components/navbar";
+import Navbar from "@/components/Navbar"
 
 type MealData = {
   name: string;
@@ -177,15 +177,6 @@ export default function Dashboard() {
           className="absolute right-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-gray-700 shadow-md hover:bg-pink-200 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
         >
           ▶
-        </button>
-      </div>
-
-      <div className="flex justify-center mt-10">
-        <button
-          onClick={() => router.push("/chat")}
-          className="px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 shadow-md"
-        >
-          Chat Page
         </button>
       </div>
 
