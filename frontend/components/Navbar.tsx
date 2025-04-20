@@ -21,6 +21,8 @@ export default function Navbar() {
     age: 28,
   });
 
+  const [mealPlan, setMealPlan] = useState({});
+
   const [preferencesText, setPreferencesText] = useState("");
   const userId = "medhamajumdar1";
 
@@ -39,6 +41,7 @@ export default function Navbar() {
             .filter((p) => p.length > 0),
           profile,
           daysUntilCheatDay: value,
+          mealPlan: mealPlan,
         }),
       });
   
@@ -61,6 +64,7 @@ export default function Navbar() {
           if (data.data.profile) setProfile(data.data.profile);
           if (data.data.preferences?.length)
             setPreferencesText(data.data.preferences.join(", "));
+          if (data.data.mealPlan) setMealPlan(data.data.mealPlan);
         }
       } catch (err) {
         console.error("Failed to fetch preferences:", err);
@@ -80,7 +84,7 @@ export default function Navbar() {
       const res = await fetch("/api/preferences", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, preferences, profile, daysUntilCheatDay }),
+        body: JSON.stringify({ userId, preferences, profile, daysUntilCheatDay, mealPlan }),
       });
 
       const data = await res.json();

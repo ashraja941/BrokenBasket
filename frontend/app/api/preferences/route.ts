@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: Request) {
-  const { userId, preferences, profile, daysUntilCheatDay } = await req.json();
+  const { userId, preferences, profile, daysUntilCheatDay, mealPlan } = await req.json();
 
   if (!userId || !preferences || !profile) {
     return NextResponse.json({ success: false, error: "Missing data" }, { status: 400 });
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     await connectToDB();
     const updated = await Preferences.findOneAndUpdate(
       { userId },
-      { preferences, profile, daysUntilCheatDay },
+      { preferences, profile, daysUntilCheatDay, mealPlan },
       { upsert: true, new: true }
     );
     return NextResponse.json({ success: true, data: updated });
