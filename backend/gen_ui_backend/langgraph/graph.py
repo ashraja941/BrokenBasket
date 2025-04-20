@@ -5,7 +5,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.checkpoint.memory import MemorySaver
 
 from gen_ui_backend.langgraph.states import GraphState
-from gen_ui_backend.langgraph.agents.nodes import create_user,trim,general,food,general_chat_bot,meal_plan_retriever,meal_plan_generator,meal_plan_checker,recipe_generator,retrieve_recipes,display_meal_plan,tool_route,general_route,redo_meal_plan
+from gen_ui_backend.langgraph.agents.nodes import save_to_db,create_user,trim,general,food,general_chat_bot,meal_plan_retriever,meal_plan_generator,meal_plan_checker,recipe_generator,retrieve_recipes,display_meal_plan,tool_route,general_route,redo_meal_plan
 
 def create_graph() -> CompiledGraph:
     workflow = StateGraph(GraphState)
@@ -22,6 +22,7 @@ def create_graph() -> CompiledGraph:
     # workflow.add_node("redo_meal_plan_router", redo_meal_plan)
     workflow.add_node("display_meal_plan", display_meal_plan)
     workflow.add_node("generate_recipe", recipe_generator)
+    workflow.add_node("save_to_db", save_to_db)
 
     # workflow.add_edge(START, "trim")
     workflow.add_edge(START,"create_user")
@@ -54,7 +55,8 @@ def create_graph() -> CompiledGraph:
             "continue": "display_meal_plan",
         },
     )
-    workflow.add_edge("display_meal_plan", END)
+    workflow.add_edge("display_meal_plan", "save_to_db")
+    workflow.add_edge("save_to_db", END)
     workflow.add_edge("general_chat_bot", END)
     workflow.add_edge("retrieve_recipes", "generate_recipe")
     workflow.add_edge("generate_recipe", END)

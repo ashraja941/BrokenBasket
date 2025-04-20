@@ -1,7 +1,9 @@
 from langchain_core.messages import RemoveMessage
 from gen_ui_backend.langgraph.agents.prompts import general_chat,tool_router,generate_meal_plan,generate_recipe,general_router,meal_plan_display
-from gen_ui_backend.utils.config import llm,recipe_retriever,ingredients_db
+from gen_ui_backend.utils.config import llm,recipe_retriever,ingredients_db,mongodb_collection
 from gen_ui_backend.utils.helpers import get_bert_embeddings,cosine
+from pprint import pprint
+
 
 def trim(state):
     if len(state['messages']) > 4:
@@ -166,7 +168,7 @@ def meal_plan_checker(state):
 
                 # calculate calories
                 cal = ingredients_db['Cals_per100grams'][most_similar[1]][:-4]
-                current_calories += grams * (int(cal)/100)
+                current_calories += int(grams) * (float(cal)/100)
 
     print("calorie goal for ",len(meal_plan)," days : ",calorie_goal)
     print("current Calories calcluated : ",current_calories)
@@ -193,7 +195,23 @@ def display_meal_plan(state):
     return {"messages" : return_message}
 
 def create_user(state):
-    print(state["messages"])
-    preferences = "I like Indian food, and I am vegetrarian. "
-    calorie_goal = 2000
-    return {"preferences":preferences, "calorie_goal":calorie_goal,"redo": False,"meal_plan":{}}
+    found_user = mongodb_collection.find_one({"userId": "medhamajumdar1"})
+    print(found_user)
+    # print(mongodb_collection.find_one({"userId": "medhamajumdar1"}))
+    
+    preferences = "".join(found_user['preferences'])
+    calorie_goal = found_user['profile']['calories']
+    meal_plan = found_user['mealPlan']
+    return {"preferences":preferences, "calorie_goal":calorie_goal,"redo": False,"meal_plan":meal_plan}
+
+def save_to_db(state):
+    update_result = mongodb_collection.update_one(
+        {"userId": "medhamajumdar1"},
+        {"$set": {
+            "profile.calories": state['calorie_goal'],
+            "mealPlan": state['meal_plan']
+        }}
+    )
+    print(f"\nModified {update_result.modified_count} document")
+
+    return state
