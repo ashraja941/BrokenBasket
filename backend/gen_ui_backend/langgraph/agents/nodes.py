@@ -205,6 +205,7 @@ def create_user(state):
     return {"preferences":preferences, "calorie_goal":calorie_goal,"redo": False,"meal_plan":meal_plan}
 
 def save_to_db(state):
+    print("---SAVED MEAL PLAN---")
     update_result = mongodb_collection.update_one(
         {"userId": "medhamajumdar1"},
         {"$set": {
