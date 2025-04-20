@@ -44,6 +44,17 @@ cd ../backend
 poetry run start
 ```
 
+### To use the MongoDB Database:
+
+Create a .env.local file in the frontend folder.
+Then copy paste this to the file:
+
+```bash
+MONGODB_URI=mongodb+srv://medhamajumdar1:jPfNtpxB6KMmVKl0@cluster0.prcmuvv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+```
+
+It should show while running yarn dev that the GET and POST was 200. Otherwise you are facing errors.
+
 ### Dataset
 The code to populate the astradb Database is [here](./Testing/Create_database.ipynb)
 
