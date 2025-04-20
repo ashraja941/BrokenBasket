@@ -34,11 +34,13 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/meal_plan.json");
+        const res = await fetch(`/api/preferences?userId=${'medhamajumdar1'}`);
         const data = await res.json();
+        console.log("Fetched data:", data);
 
+        if (!data.success) throw new Error(data.error);
         const parsed: Record<string, any> = {};
-        Object.entries(data).forEach(([dayIndex, meals]) => {
+        Object.entries(data.data.mealPlan).forEach(([dayIndex, meals]) => {
           const dayLabel = `Day ${parseInt(dayIndex) + 1}`;
           const mealKeys = Object.keys(meals);
           parsed[dayLabel] = {};
@@ -190,9 +192,6 @@ export default function Dashboard() {
               ×
             </button>
             <h2 className="text-xl font-bold mb-2">{selectedMeal.data.name}</h2>
-            <p className="mb-2">
-              <strong>Calories:</strong> {selectedMeal.data.calories} kcal
-            </p>
             <p className="mb-2">
               <strong>Ingredients:</strong>
             </p>
