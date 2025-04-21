@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+  background-color: #FCFAEE;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  scrollbar-gutter: stable; /* Prevent layout shift when scrollbar appears */
+  }
+  
+
 @layer base {
   :root {
     --background: 0 0% 100%;

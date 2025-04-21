@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "@/components/Navbar"
+import Navbar from "@/components/Navbar";
+import './globals.css';
 
 type MealData = {
   name: string;
@@ -12,14 +13,9 @@ type MealData = {
   }[];
 };
 
-
-type DailyMeal = {
-  [key in "Breakfast" | "Lunch" | "Dinner"]?: MealData;
-};
-
 export default function Dashboard() {
   const router = useRouter();
-  const [mealPlan, setMealPlan] = useState<Record<string, DailyMeal>>({});
+  const [mealPlan, setMealPlan] = useState<Record<string, Record<string, MealData>>>({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedMeal, setSelectedMeal] = useState<null | {
     day: string;
@@ -49,14 +45,13 @@ export default function Dashboard() {
               calories: i[0],
             }));
             const calories = ingredients.reduce((sum: number, item) => sum + item.calories, 0);
-          
+
             parsed[dayLabel][mealName] = {
               name: mealName,
               calories,
               ingredients,
             };
           });
-          
         });
 
         setMealPlan(parsed);
@@ -85,124 +80,124 @@ export default function Dashboard() {
 
   return (
     <>
-  <Navbar />
-  <main className="min-h-screen bg-pink-100 px-4 py-6 relative overflow-visible">
-      <header className="flex justify-between items-center px-6 mt-5">
-      <h1 className="text-4xl font-cursive italic text-gray-800 text-center w-full">
-        Current Meal Plan
-      </h1>
+      <Navbar />
+      <main className="min-h-screen bg-[#FCFAEE] px-8 py-6 relative overflow-visible w-full">
+        <header className="flex justify-between items-center px-6 mt-5">
+          <h1 className="text-4xl font-cursive italic text-[#DA8359] text-center w-full">
+            Current Meal Plan
+          </h1>
+        </header>
 
-        {/* <button className="bg-pink-500 text-white px-4 py-2 rounded-full hover:bg-pink-600 text-sm font-semibold shadow-md">
-          ➕ Add new meal plan
-        </button> */}
-      </header>
-
-      <div className="relative mt-16 mb-16 min-h-[420px] flex items-center justify-center">
-        {/* Left Arrow */}
-        <button
-          onClick={prev}
-          disabled={currentIndex === 0}
-          className="absolute left-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-gray-700 shadow-md hover:bg-pink-200 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
-        >
-          ◀
-        </button>
-
-        {/* Card Carousel */}
-        <div className="overflow-hidden w-[1250px]">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${currentIndex * cardWidth}px)`,
-              width: `${totalCards * cardWidth}px`,
-            }}
+        <div className="relative mt-16 mb-16 min-h-[420px] flex items-center justify-center">
+          {/* Left Arrow */}
+          <button
+            onClick={prev}
+            disabled={currentIndex === 0}
+            className="absolute left-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#DA8359] shadow-md hover:bg-[#ECDFCC] disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
           >
-            {Array.from({ length: totalCards }).map((_, i) => {
-              const realIndex = i - 2;
-              const day = days[realIndex];
-              const isGhost = realIndex < 0 || realIndex >= days.length;
+            ◀
+          </button>
 
-              const distanceFromCenter = Math.abs(i - (currentIndex + centerOffset));
-              let scale = "scale-90";
-              if (distanceFromCenter === 0) scale = "scale-95";
-              else if (distanceFromCenter === 1) scale = "scale-90";
-
-              return (
-                <div
-                  key={i}
-                  className={`transform transition-all duration-500 ease-in-out mx-2 flex-shrink-0 w-[250px] ${
-                    isGhost ? "opacity-0 pointer-events-none" : "bg-pink-200"
-                  } ${scale} rounded-3xl p-4 shadow-[inset_-4px_-4px_8px_#ffffff20,_4px_4px_12px_#ec4899]`}
-                >
-                  {!isGhost && (
-                    <>
-                      <h2 className="text-xl font-bold mb-4 text-center text-gray-700">{day}</h2>
-                      {Object.entries(mealPlan[day]).map(([_, mealData], index) => (
-                        <div key={index} className="mb-6 w-full">
-                          <h3 className="text-blue-600 font-semibold mb-1">Meal {index + 1}</h3>
-                          <div
-                            className="rounded-xl bg-gray-50 p-3 shadow-inner border border-gray-300 cursor-pointer hover:bg-gray-200"
-                            onClick={() =>
-                              setSelectedMeal({
-                                day,
-                                time: `Meal ${index + 1}`,
-                                data: mealData,
-                              })
-                            }
-                          >
-                            <p className="font-semibold text-sm text-gray-800">{mealData.name}</p>
-                            {/* <p className="text-xs text-gray-500">{mealData.calories} kcal</p> */}
-                          </div>
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={next}
-          disabled={currentIndex >= totalCards - visibleCount}
-          className="absolute right-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-gray-700 shadow-md hover:bg-pink-200 disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
-        >
-          ▶
-        </button>
-      </div>
-
-      {/* Meal Details Modal */}
-      {selectedMeal && (
-        <div
-          className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center"
-          onClick={() => setSelectedMeal(null)}
-        >
-          <div
-            className="bg-white p-6 rounded-lg w-96 shadow-xl relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedMeal(null)}
-              className="absolute top-2 right-3 text-xl text-gray-500 hover:text-black"
+          {/* Card Carousel */}
+          <div className="overflow-hidden w-full max-w-[1400px] mx-auto px-4">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentIndex * cardWidth}px)`,
+                width: `${totalCards * cardWidth}px`,
+              }}
             >
-              ×
-            </button>
-            <h2 className="text-xl font-bold mb-2">{selectedMeal.data.name}</h2>
-            <p className="mb-2">
-              <strong>Ingredients:</strong>
-            </p>
-            <ul className="list-disc ml-6 text-sm">
-              {selectedMeal.data.ingredients.map((ingredient, index) => (
-                <li key={index}>
-                  {ingredient.name}: {ingredient.calories} g
-                </li>
-              ))}
-            </ul>
+
+
+              {Array.from({ length: totalCards }).map((_, i) => {
+                const realIndex = i - 2;
+                const day = days[realIndex];
+                const isGhost = realIndex < 0 || realIndex >= days.length;
+
+                const distanceFromCenter = Math.abs(i - (currentIndex + centerOffset));
+                let scale = "scale-90";
+                if (distanceFromCenter === 0) scale = "scale-95";
+                else if (distanceFromCenter === 1) scale = "scale-90";
+
+                return (
+                  <div
+                    key={i}
+                    className={`transform transition-all duration-500 ease-in-out mx-2 flex-shrink-0 w-[250px] ${
+                      isGhost ? "opacity-0 pointer-events-none" : "bg-[#A5B68D]"
+                    } ${scale} rounded-3xl p-4 shadow-[inset_-4px_-4px_8px_#ffffff20,_4px_4px_12px_#6F826A]`}
+                  >
+                    {!isGhost && (
+                      <>
+                        <h2 className="text-xl font-bold mb-4 text-center text-white">{day}</h2>
+                        {Object.entries(mealPlan[day]).map(([_, mealData], index) => (
+                          <div key={index} className="mb-6 w-full">
+                            <h3 className="text-white font-semibold mb-1">Meal {index + 1}</h3>
+                            <div
+                              className="rounded-xl bg-[#FCFAEE] p-3 shadow-inner border border-[#ECDFCC] cursor-pointer hover:bg-[#ECDFCC]"
+                              onClick={() =>
+                                setSelectedMeal({
+                                  day,
+                                  time: `Meal ${index + 1}`,
+                                  data: mealData,
+                                })
+                              }
+                            >
+                              <p className="font-semibold text-sm text-[#DA8359]">
+                                {mealData.name}
+                              </p>
+                              <p className="text-xs text-gray-600">{mealData.calories} kcal</p>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
+
+          {/* Right Arrow */}
+          <button
+            onClick={next}
+            disabled={currentIndex >= totalCards - visibleCount}
+            className="absolute right-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#DA8359] shadow-md hover:bg-[#ECDFCC] disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
+          >
+            ▶
+          </button>
         </div>
-      )}
-    </main>
+
+        {/* Meal Details Modal */}
+        {selectedMeal && (
+          <div
+            className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center"
+            onClick={() => setSelectedMeal(null)}
+          >
+            <div
+              className="bg-[#ECDFCC] p-6 rounded-lg w-96 shadow-xl relative text-[#444]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setSelectedMeal(null)}
+                className="absolute top-2 right-3 text-xl text-gray-500 hover:text-black"
+              >
+                ×
+              </button>
+              <h2 className="text-xl font-bold mb-2">{selectedMeal.data.name}</h2>
+              <p className="mb-2">
+                <strong>Ingredients:</strong>
+              </p>
+              <ul className="list-disc ml-6 text-sm">
+                {selectedMeal.data.ingredients.map((ingredient, index) => (
+                  <li key={index}>
+                    {ingredient.name}: {ingredient.calories} kcal
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </main>
     </>
   );
 }

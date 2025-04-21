@@ -114,7 +114,7 @@ export default function Chat() {
   }
 
   return (
-    <div className="w-[70vw] overflow-y-scroll h-[80vh] flex flex-col gap-4 mx-auto border-[1px] border-gray-200 rounded-lg p-3 shadow-sm bg-gray-50/25">
+    <div className="w-[70vw] overflow-y-scroll h-[80vh] flex flex-col gap-4 mx-auto border-[1px] border-gray-200 rounded-lg p-3 shadow-sm bg-[#DCD7C9]">
       <LocalContext.Provider value={onSubmit}>
         <div className="flex flex-col w-full gap-1 mt-auto">{elements}</div>
       </LocalContext.Provider>
@@ -127,11 +127,11 @@ export default function Chat() {
         className="w-full flex flex-row gap-2"
       >
         <Input
-          placeholder="What do you want to eat today?"
+          placeholder="Hey! What do you want to eat today?"
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <div className="w-[300px]">
+        {/* <div className="w-[300px]">
           <Input
             placeholder="Upload"
             id="image"
@@ -143,7 +143,7 @@ export default function Chat() {
               }
             }}
           />
-        </div>
+        </div> */}
         <Button type="submit">Submit</Button>
       </form>
     </div>
