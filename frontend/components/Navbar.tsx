@@ -29,29 +29,33 @@ export default function Navbar() {
 
   const updateCheatDay = async (value: number) => {
     try {
-      setDaysUntilCheatDay(value);
+      const preferences = preferencesText
+        .split(",")
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0);
   
       const res = await fetch("/api/preferences", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId,
-          preferences: preferencesText
-            .split(",")
-            .map((p) => p.trim())
-            .filter((p) => p.length > 0),
+          preferences,
           profile,
           daysUntilCheatDay: value,
-          mealPlan: mealPlan,
+          mealPlan,
         }),
       });
   
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
+  
+      // Only update state if DB save was successful
+      setDaysUntilCheatDay(value);
     } catch (err) {
       console.error("Failed to update cheat day progress:", err);
     }
   };
+  
 
   // 🟩 Fetch data on load
   useEffect(() => {
@@ -60,7 +64,7 @@ export default function Navbar() {
         const res = await fetch(`/api/preferences?userId=${userId}`);
         const data = await res.json();
         if (data.success && data.data) {
-          if (data.data.daysUntilCheatDay)
+          if (typeof data.data.daysUntilCheatDay === "number")
             setDaysUntilCheatDay(data.data.daysUntilCheatDay);
           if (data.data.profile) setProfile(data.data.profile);
           if (data.data.preferences?.length)

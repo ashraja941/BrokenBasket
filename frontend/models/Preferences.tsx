@@ -10,7 +10,7 @@ const PreferencesSchema = new mongoose.Schema({
       age: Number,
     },
     preferences: [String],
-    daysUntilCheatDay: { type: Number, default: 1 },
+    daysUntilCheatDay: { type: Number },
     mealPlan: { type: JSON },
   });
 
