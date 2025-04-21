@@ -147,7 +147,7 @@ export default function Dashboard() {
                               <p className="font-semibold text-sm text-[#DA8359]">
                                 {mealData.name}
                               </p>
-                              <p className="text-xs text-gray-600">{mealData.calories} kcal</p>
+                              {/* <p className="text-xs text-gray-600">{mealData.calories} kcal</p> */}
                             </div>
                           </div>
                         ))}
@@ -192,7 +192,7 @@ export default function Dashboard() {
               <ul className="list-disc ml-6 text-sm">
                 {selectedMeal.data.ingredients.map((ingredient, index) => (
                   <li key={index}>
-                    {ingredient.name}: {ingredient.calories} kcal
+                    {ingredient.name}: {ingredient.calories} g
                   </li>
                 ))}
               </ul>
