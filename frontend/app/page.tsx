@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import './globals.css';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 type MealData = {
   name: string;
@@ -83,7 +84,7 @@ export default function Dashboard() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-[#FCFAEE] px-8 py-6 relative overflow-visible w-full">
+      <main className="min-h-screen px-8 py-6 relative overflow-visible w-full">
         <header className="flex justify-between items-center px-6 mt-5">
           <h1 className="text-4xl font-cursive italic text-[#DA8359] text-center w-full">
             Current Meal Plan
@@ -97,7 +98,7 @@ export default function Dashboard() {
             disabled={currentIndex === 0}
             className="absolute left-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#DA8359] shadow-md hover:bg-[#ECDFCC] disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
           >
-            ◀
+            <ChevronLeft className="w-5 h-5" />
           </button>
 
           {/* Card Carousel */}
@@ -165,7 +166,7 @@ export default function Dashboard() {
             disabled={currentIndex >= totalCards - visibleCount}
             className="absolute right-0 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#DA8359] shadow-md hover:bg-[#ECDFCC] disabled:opacity-30 disabled:cursor-not-allowed focus:outline-none"
           >
-            ▶
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
 
