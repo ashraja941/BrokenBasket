@@ -118,6 +118,23 @@ export default function Chat() {
       <LocalContext.Provider value={onSubmit}>
         <div className="flex flex-col w-full gap-1 mt-auto">{elements}</div>
       </LocalContext.Provider>
+          {/* Demo Prompts */}
+          <div className="flex flex-wrap gap-2 mb-2">
+  {["Give me a 2000 calorie meal plan", "Suggest a high-protein lunch", "I want a vegan dinner", "What can I eat under 500 calories?"].map((prompt, index) => (
+    <button
+      key={index}
+      type="button"
+      onClick={() => onSubmit(prompt)}
+      className="text-sm text-white rounded px-3 py-1 transition"
+      style={{
+        backgroundColor: "#96a692",
+      }}
+    >
+      {prompt}
+    </button>
+  ))}
+</div>
+
       <form
         onSubmit={async (e) => {
           e.stopPropagation();
