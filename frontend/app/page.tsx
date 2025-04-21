@@ -30,11 +30,13 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("/meal_plan.json");
+        const res = await fetch(`/api/preferences?userId=${'medhamajumdar1'}`);
         const data = await res.json();
+        console.log("Fetched data:", data);
 
+        if (!data.success) throw new Error(data.error);
         const parsed: Record<string, any> = {};
-        Object.entries(data).forEach(([dayIndex, meals]) => {
+        Object.entries(data.data.mealPlan).forEach(([dayIndex, meals]) => {
           const dayLabel = `Day ${parseInt(dayIndex) + 1}`;
           const mealKeys = Object.keys(meals);
           parsed[dayLabel] = {};
