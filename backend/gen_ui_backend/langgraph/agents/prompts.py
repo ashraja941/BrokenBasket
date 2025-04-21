@@ -2,7 +2,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser,JsonOutputParser
 
 from gen_ui_backend.langgraph.states import GeneralRouteQuery,ToolRouteQuery,MealPlanState
-from gen_ui_backend.utils.config import llm
+from gen_ui_backend.utils.config import llm,llm_with_tools
 
 # General router Prompt
 system_general_route = """You are an expert at routing a user question to a food or general.

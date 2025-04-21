@@ -8,6 +8,8 @@ from pymongo import MongoClient,errors
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.vectorstores import Cassandra
 
+from gen_ui_backend.tools.findCalorie import find_calorie
+
 print("SERVER : Loading environment variables...")
 # Load environment variables from .env file
 load_dotenv()
@@ -75,3 +77,6 @@ print("SERVER : Initializing LLMs...")
 
 llm=ChatGroq(groq_api_key=os.environ["GROQ_API_KEY"],model_name='Llama-3.3-70b-Versatile')
 # llm = ChatOpenAI(model = "gpt-4o-mini")
+
+tools = [find_calorie]
+llm_with_tools = llm.bind_tools(tools)

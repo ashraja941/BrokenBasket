@@ -49,6 +49,8 @@ def recipe_generator(state):
     print("---GENERATE RECIPE---")
 
     response = generate_recipe.invoke({"message": state["messages"], "preferences": state["preferences"], "documents": state["documents"]})
+    # print(response.tool_calls)
+    print(response)
     return {"messages": response}
 
 def general_route(state):
