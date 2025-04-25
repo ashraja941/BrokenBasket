@@ -6,11 +6,19 @@ from pprint import pprint
 
 
 def trim(state):
+    """
+    Remove all but the last 4 messages from the state.
+
+    Args:
+        state (dict): The current graph state
+    
+    Returns:
+        state (dict): The current graph state with the messages trimmed
+    """
     if len(state['messages']) > 4:
         delete_messages = [RemoveMessage(id=m.id) for m in state['messages'][:-4]]
         return {"messages": delete_messages}
-    else:
-        return {"messages": state['messages']}
+    return {"messages": state['messages']}
     
 def general_chat_bot(state):
     response = general_chat.invoke({"message": state["messages"], "preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "meal_plan": state["meal_plan"]})
@@ -36,7 +44,6 @@ def retrieve_recipes(state):
     return {"documents": response}
 
 def recipe_generator(state):
-    
     """
     Generate a recipe
 
@@ -74,8 +81,7 @@ def general_route(state):
     elif source.datasource == "food":
         print("---ROUTE QUESTION TO FOOD---")
         return "food_route"
-    else:
-        raise ValueError(f"Unknown datasource: {source.datasource}")
+    raise ValueError(f"Unknown datasource: {source.datasource}")
     
 def tool_route(state):
     """
@@ -100,8 +106,7 @@ def tool_route(state):
     elif source.datasource == "recipe":
         print("---ROUTE QUESTION TO RECIPE---")
         return "recipe_route"
-    else:
-        raise ValueError(f"Unknown datasource: {source.datasource}")
+    raise ValueError(f"Unknown datasource: {source.datasource}")
     
 def meal_plan_retriever(state):
     """"
@@ -132,12 +137,12 @@ def meal_plan_generator(state):
     if redo == False:
         meal_plan = generate_meal_plan.invoke({"preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "documents": state["documents"],"message": state["messages"][-1].content})
     else:
-        corrected_message = state["messages"][-1].content + " with lower calories, make sure that there are at least 3 meals in a day"
+        corrected_message = state["messages"][-1].content + " with low calories, make sure that there are at least 2 meals in a day"
         print(corrected_message)
         meal_plan = generate_meal_plan.invoke({"preferences": state["preferences"], "calorie_goal": state["calorie_goal"], "documents": state["documents"],"message": corrected_message})
-    print(meal_plan)
-    print(meal_plan.store)
-    return ({"meal_plan": meal_plan.store})
+    # print(meal_plan)
+    # print(meal_plan.store)
+    return ({"meal_plan": meal_plan})
 
 def general(state):
     print("reached general state")
@@ -148,6 +153,13 @@ def food(state):
     return state
 
 def meal_plan_checker(state):
+    """
+    Check the calories in the meal plan
+    Args:
+        state (dict): The current graph state
+    Returns:
+        state (dict): The current graph state with redo and current_calories added
+    """
     print("---CHECK MEAL PLAN---")
     meal_plan = state['meal_plan']
     current_calories = 0
@@ -174,6 +186,9 @@ def meal_plan_checker(state):
     print("current Calories calcluated : ",current_calories)
     print("current Calories per day : ", current_calories/len(meal_plan))
     if current_calories > calorie_goal:
+        if state["redo"]:
+            print("Had issues with generating the meal plan")
+            return {"redo": True,"meal_plan": meal_plan, "current_calories": current_calories}
         print("REDO ? : True")
         return {"redo": True}
     else:
@@ -188,6 +203,15 @@ def redo_meal_plan(state):
         return "continue"
     
 def display_meal_plan(state):
+    """
+    Display the meal plan in a readable format to the user 
+
+    Args: 
+        state (dict): The current graph state
+
+    Returns: 
+        state (dict): New message summarizing the meal plan
+    """
     print("---DISPLAY MEAL PLAN---")
     print("meal plan: ",state['meal_plan'])
     print("current calories: ",state['current_calories'])
@@ -195,6 +219,14 @@ def display_meal_plan(state):
     return {"messages" : return_message}
 
 def create_user(state):
+    """
+    Reading through the database to populat the user information
+
+    Args:
+        state (dict): The current graph state
+    Returns:
+        state (dict): The current graph state with the user information added
+    """
     found_user = mongodb_collection.find_one({"userId": "medhamajumdar1"})
     print(found_user)
     # print(mongodb_collection.find_one({"userId": "medhamajumdar1"}))
@@ -205,6 +237,14 @@ def create_user(state):
     return {"preferences":preferences, "calorie_goal":calorie_goal,"redo": False,"meal_plan":meal_plan}
 
 def save_to_db(state):
+    """
+    Update the database with new meal plan
+
+    Args:
+        state (dict): The current graph state
+    Returns:
+        state (dict): The current graph state 
+    """
     print("---SAVED MEAL PLAN---")
     update_result = mongodb_collection.update_one(
         {"userId": "medhamajumdar1"},

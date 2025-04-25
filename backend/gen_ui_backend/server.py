@@ -10,9 +10,9 @@ import gen_ui_backend.utils.config
 
 def start() -> None:
     app = FastAPI(
-        title="Gen UI Backend",
+        title="Broken Basket",
         version="1.0",
-        description="A simple api server using Langchain's Runnable interfaces",
+        description="Broken Basket is a multi-agent LLM based application to help with achieving dietary goals"
     )
 
     # Configure CORS

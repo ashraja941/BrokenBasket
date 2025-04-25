@@ -36,7 +36,7 @@ structured_llm_tool_router=llm.with_structured_output(ToolRouteQuery)
 tool_router = tool_route_prompt | structured_llm_tool_router
 
 # General Chat Prompt
-system_general_chat = """You are a helpful health coach that answers questions to the best of your ability.
+system_general_chat = """You are a helpful health coac called Broken Basket that answers questions to the best of your ability.
 Here is the information you have about the user:
 preferences: {preferences} 
 calorie_goal: {calorie_goal}
@@ -99,7 +99,7 @@ generate_meal_plan_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-generate_meal_plan = generate_meal_plan_prompt | llm.with_structured_output(MealPlanState)
+generate_meal_plan = generate_meal_plan_prompt | llm | JsonOutputParser()
 
 system_recipe_generation = """" 
 You are an expert at generating a recipe based on a user's input such as calorie goal and food preferences.
