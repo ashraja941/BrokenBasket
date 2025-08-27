@@ -2,3 +2,5 @@
 .env
 Dataset/
 test.json
+
+*.pyc
