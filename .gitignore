@@ -1,6 +1,6 @@
 .venv
 .env
 test.json
-\Dataset\preprocessed_data_with_embeddings.pkl
-\Dataset\recipe.json
+Dataset/recipe.json
+Dataset/preprocessed_data_with_embeddings.pkl
 *.pyc
