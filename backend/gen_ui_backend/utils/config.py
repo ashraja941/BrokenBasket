@@ -69,10 +69,10 @@ except errors.ConnectionFailure as e:
     print(f"Could not connect to MongoDB: {e}")
 except Exception as e:
     print(f"An error occurred: {e}")
-finally:
-    if 'client_mongo' in locals():
-        client_mongo.close()
-        print("MongoDB connection closed")
+# finally:
+#     if 'client_mongo' in locals():
+#         client_mongo.close()
+#         print("MongoDB connection closed")
 
 from langchain_groq import ChatGroq
 from langchain_openai import ChatOpenAI
