@@ -20,6 +20,7 @@ def start() -> None:
     origins = [
         "http://localhost",
         "http://localhost:3000",
+        "https://broken-basket.vercel.app",
     ]
 
     app.add_middleware(

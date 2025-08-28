@@ -14,7 +14,7 @@ import {
 import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { AIMessage } from "@/ai/message";
 
-const API_URL = "http://localhost:8000/chat";
+const API_URL = "https://brokenbasket-590340135293.us-south1.run.app/chat";
 
 type ToolComponent = {
   loading: (props?: any) => JSX.Element;
