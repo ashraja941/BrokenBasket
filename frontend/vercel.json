@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://brokenbasket-590340135293.us-south1.run.app" }
+    { "source": "/api/:path*", "destination": "https://<YOUR-CLOUD-RUN-URL>/:path*" }
   ]
 }
