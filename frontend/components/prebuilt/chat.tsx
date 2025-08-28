@@ -120,7 +120,7 @@ export default function Chat() {
       </LocalContext.Provider>
           {/* Demo Prompts */}
           <div className="flex flex-wrap gap-2 mb-2">
-  {["Give me a 2000 calories meal plan", "Suggest a high-protein lunch", "I want a vegan dinner", "What can I eat under 500 calories?"].map((prompt, index) => (
+  {["Suggest a high-protein lunch", "I want a vegan dinner", "Give me a 2500 calories meal plan for 2 days", "What can I eat under 500 calories?"].map((prompt, index) => (
     <button
       key={index}
       type="button"
