@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from uuid import uuid4
 import pickle as pkl
 from pymongo import MongoClient, errors
+from pathlib import Path
 
 from astrapy import DataAPIClient
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -35,7 +36,7 @@ db = client.get_database(ASTRA_DB_API_ENDPOINT, keyspace=ASTRA_DB_KEYSPACE)
 
 print("SERVER : Loading preprocessed dataset...")
 # ingredients_db = pkl.load(open('Dataset/preprocessed_data_with_embeddings.pkl', 'rb'))
-ingredients_db = pkl.load(open('..\\Dataset\\calories_embedded.pkl', 'rb'))
+ingredients_db = pkl.load(open(Path("Dataset/calories_embedded.pkl")))
 
 print("SERVER : Initializing vectorized Database (Data API)...")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
