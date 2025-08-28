@@ -14,7 +14,11 @@ import {
 import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { AIMessage } from "@/ai/message";
 
-const API_URL = "https://brokenbasket-590340135293.us-south1.run.app/chat";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_URL) {
+  throw new Error("Missing NEXT_PUBLIC_API_URL environment variable");
+}
 
 type ToolComponent = {
   loading: (props?: any) => JSX.Element;
