@@ -36,7 +36,7 @@ db = client.get_database(ASTRA_DB_API_ENDPOINT, keyspace=ASTRA_DB_KEYSPACE)
 
 print("SERVER : Loading preprocessed dataset...")
 # ingredients_db = pkl.load(open('Dataset/preprocessed_data_with_embeddings.pkl', 'rb'))
-ingredients_db = pkl.load(open(Path("Dataset/calories_embedded.pkl")))
+ingredients_db = pkl.load(open(Path("Dataset/calories_embedded.pkl"),'rb'))
 
 print("SERVER : Initializing vectorized Database (Data API)...")
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
