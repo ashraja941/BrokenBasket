@@ -64,7 +64,7 @@ The user's calorie goal for the day : {calorie_goal}
 You are to take reference from the documents provided below : {documents}
 
 
-Find the number of days that the user wants a meal plan for and generate a meal plan for exactly that many days. 
+Find the number of days that the user wants a meal plan for and generate a meal plan for exactly that many days. by default generate a meal plan for 1 day
 
 For example: 
 if the user says that they want a meal plan for a week, then create a meal plan for 7 days. 
