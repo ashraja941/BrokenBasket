@@ -166,7 +166,7 @@ function ChartContent() {
       selectedFilters: filters,
     });
     switch (selectedChart) {
-      case "bar":
+      case "bar": {
         const displayFormatKeyBar = "bar_order_amount_by_product";
         const displayFormatBar = DISPLAY_FORMATS.find(
           (d) => d.key === displayFormatKeyBar,
@@ -175,7 +175,7 @@ function ChartContent() {
           throw new Error("Something went wrong.");
         }
         return setElements([
-          <div className="mt-4 mb-6 text-center">
+          <div key="start-bar-desc" className="mt-4 mb-6 text-center">
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {displayFormatBar.title}
             </h2>
@@ -190,7 +190,8 @@ function ChartContent() {
             key="start-bar"
           />,
         ]);
-      case "pie":
+      }
+      case "pie": {
         const displayFormatKeyPie = "pie_order_status_distribution";
         const displayFormatPie = DISPLAY_FORMATS.find(
           (d) => d.key === displayFormatKeyPie,
@@ -199,7 +200,7 @@ function ChartContent() {
           throw new Error("Something went wrong.");
         }
         return setElements([
-          <div className="mt-4 mb-6 text-center">
+          <div key="start-pie-desc" className="mt-4 mb-6 text-center">
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {displayFormatPie.title}
             </h2>
@@ -214,7 +215,8 @@ function ChartContent() {
             key="start-pie"
           />,
         ]);
-      case "line":
+      }
+      case "line": {
         const displayFormatKeyLine = "line_order_amount_over_time";
         const displayFormatLine = DISPLAY_FORMATS.find(
           (d) => d.key === displayFormatKeyLine,
@@ -223,7 +225,7 @@ function ChartContent() {
           throw new Error("Something went wrong.");
         }
         return setElements([
-          <div className="mt-4 mb-6 text-center">
+          <div key="start-line-desc" className="mt-4 mb-6 text-center">
             <h2 className="text-xl font-semibold text-gray-800 mb-2">
               {displayFormatLine.title}
             </h2>
@@ -238,6 +240,7 @@ function ChartContent() {
             key="start-line"
           />,
         ]);
+      }
     }
   }, [orders.length, searchParams, selectedChartType]);
 
