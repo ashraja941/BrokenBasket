@@ -36,18 +36,25 @@ export default function Dashboard() {
         console.log("Fetched data:", data);
 
         if (!data.success) throw new Error(data.error);
-        const parsed: Record<string, any> = {};
-        Object.entries(data.data.mealPlan).forEach(([dayIndex, meals]) => {
+        const parsed: Record<string, Record<string, MealData>> = {};
+
+        // Assert the backend shape once:
+        // mealPlan: { [dayIndex: string]: { [mealName: string]: [calories: number, name: string][] } }
+        const plan = (data?.data?.mealPlan ?? {}) as Record<
+          string,
+          Record<string, [number, string][]>
+        >;
+
+        Object.entries(plan).forEach(([dayIndex, meals]) => {
           const dayLabel = `Day ${parseInt(dayIndex) + 1}`;
-          const mealKeys = Object.keys(meals);
           parsed[dayLabel] = {};
 
-          mealKeys.forEach((mealName) => {
-            const ingredients = meals[mealName].map((i: any[]) => ({
-              name: i[1],
-              calories: i[0],
+          Object.entries(meals).forEach(([mealName, items]) => {
+            const ingredients = items.map(([cal, name]) => ({
+              name,
+              calories: cal,
             }));
-            const calories = ingredients.reduce((sum: number, item) => sum + item.calories, 0);
+            const calories = ingredients.reduce((sum, item) => sum + item.calories, 0);
 
             parsed[dayLabel][mealName] = {
               name: mealName,
@@ -58,6 +65,7 @@ export default function Dashboard() {
         });
 
         setMealPlan(parsed);
+
       } catch (err) {
         console.error("Error loading meal plan:", err);
       }
@@ -125,15 +133,14 @@ export default function Dashboard() {
                 return (
                   <div
                     key={i}
-                    className={`transform transition-all duration-500 ease-in-out mx-2 flex-shrink-0 w-[250px] ${
-                      isGhost ? "opacity-0 pointer-events-none" : "bg-[#A5B68D]"
-                    } ${scale} rounded-3xl p-4 shadow-[inset_-4px_-4px_8px_#ffffff20,_4px_4px_12px_#6F826A]`}
+                    className={`transform transition-all duration-500 ease-in-out mx-2 flex-shrink-0 w-[250px] ${isGhost ? "opacity-0 pointer-events-none" : "bg-[#A5B68D]"
+                      } ${scale} rounded-3xl p-4 shadow-[inset_-4px_-4px_8px_#ffffff20,_4px_4px_12px_#6F826A]`}
                   >
                     {!isGhost && (
                       <>
                         <h2 className="text-xl font-bold mb-4 text-center text-white">{day}</h2>
-                        {Object.entries(mealPlan[day]).map(([_, mealData], index) => (
-                          <div key={index} className="mb-6 w-full">
+                        {Object.entries(mealPlan[day] ?? {}).map(([mealName, mealData], index) => (
+                          <div key={mealName} className="mb-6 w-full">
                             <h3 className="text-white font-semibold mb-1">Meal {index + 1}</h3>
                             <div
                               className="rounded-xl bg-[#FCFAEE] p-3 shadow-inner border border-[#ECDFCC] cursor-pointer hover:bg-[#ECDFCC]"
