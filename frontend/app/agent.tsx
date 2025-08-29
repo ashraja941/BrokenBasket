@@ -21,6 +21,9 @@ if (!API_URL) {
   throw new Error("Missing NEXT_PUBLIC_API_URL environment variable");
 }
 
+// TypeScript type assertion to ensure API_URL is treated as string
+const API_URL_STRING: string = API_URL;
+
 type ToolComponent = {
   loading: (props?: any) => JSX.Element;
   final: (props?: any) => JSX.Element;
@@ -62,7 +65,7 @@ async function agent(inputs: {
   };
 
   const remoteRunnable = new RemoteRunnable({
-    url: API_URL,
+    url: API_URL_STRING,
   }).withConfig(config);
 
 
