@@ -13,6 +13,7 @@ import {
 } from "@/components/prebuilt/weather";
 import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { AIMessage } from "@/ai/message";
+import { isJsonContent } from "@/utils/json-utils";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -143,6 +144,7 @@ async function agent(inputs: {
       typeof event.data.chunk !== "object"
     )
       return;
+    
     if (!fields.callbacks[event.run_id]) {
       const textStream = createStreamableValue();
       fields.ui.append(<AIMessage value={textStream.value} />);

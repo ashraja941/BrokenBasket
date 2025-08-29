@@ -14,6 +14,7 @@ import { createStreamableUI, createStreamableValue } from "ai/rsc";
 import { StreamEvent } from "@langchain/core/tracers/log_stream";
 import { AIMessage } from "@/ai/message";
 import { HumanMessageText } from "./message";
+import { isJsonContent } from "@/utils/json-utils";
 
 export interface ChatProps {}
 
@@ -80,14 +81,21 @@ export default function Chat() {
     // after which we can append to our chat history state
     (async () => {
       let lastEvent = await element.lastEvent;
-      if (Array.isArray(lastEvent)) {
-        if (lastEvent[0].invoke_model && lastEvent[0].invoke_model.result) {
-          setHistory((prev) => [
-            ...prev,
-            ["human", input],
-            ["ai", lastEvent[0].invoke_model.result],
-          ]);
-        } else if (lastEvent[1].invoke_tools) {
+              if (Array.isArray(lastEvent)) {
+          if (lastEvent[0].invoke_model && lastEvent[0].invoke_model.result) {
+            const aiResponse = lastEvent[0].invoke_model.result;
+            // Only add to history if it's not JSON
+            if (!isJsonContent(aiResponse)) {
+              setHistory((prev) => [
+                ...prev,
+                ["human", input],
+                ["ai", aiResponse],
+              ]);
+            } else {
+              // Add only human message if AI response is JSON
+              setHistory((prev) => [...prev, ["human", input]]);
+            }
+          } else if (lastEvent[1].invoke_tools) {
           setHistory((prev) => [
             ...prev,
             ["human", input],
@@ -99,13 +107,20 @@ export default function Chat() {
         } else {
           setHistory((prev) => [...prev, ["human", input]]);
         }
-      } else if (lastEvent.invoke_model && lastEvent.invoke_model.result) {
-        setHistory((prev) => [
-          ...prev,
-          ["human", input],
-          ["ai", lastEvent.invoke_model.result],
-        ]);
-      }
+              } else if (lastEvent.invoke_model && lastEvent.invoke_model.result) {
+          const aiResponse = lastEvent.invoke_model.result;
+          // Only add to history if it's not JSON
+          if (!isJsonContent(aiResponse)) {
+            setHistory((prev) => [
+              ...prev,
+              ["human", input],
+              ["ai", aiResponse],
+            ]);
+          } else {
+            // Add only human message if AI response is JSON
+            setHistory((prev) => [...prev, ["human", input]]);
+          }
+        }
     })();
 
     setElements(newElements);

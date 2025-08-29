@@ -2,6 +2,7 @@
 
 import { AIMessageText } from "@/components/prebuilt/message";
 import { StreamableValue, useStreamableValue } from "ai/rsc";
+import { isJsonContent } from "@/utils/json-utils";
 
 export function AIMessage(props: { value: StreamableValue<string> }) {
   const [data] = useStreamableValue(props.value);
@@ -9,5 +10,11 @@ export function AIMessage(props: { value: StreamableValue<string> }) {
   if (!data) {
     return null;
   }
+
+  // Check if the content is JSON and hide it if it is
+  if (isJsonContent(data)) {
+    return null; // Don't display JSON messages
+  }
+
   return <AIMessageText content={data} />;
 }
