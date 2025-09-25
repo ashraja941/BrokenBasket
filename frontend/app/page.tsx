@@ -98,6 +98,11 @@ export default function Dashboard() {
             Current Meal Plan
           </h1>
         </header>
+        
+        {/* Guidance line */}
+        <div className="text-center text-sm text-gray-600 mt-2 mb-4">
+          Want to change your meal plan? Use the <span className="text-[#DA8359] font-medium">Chat</span> button above to request modifications
+        </div>
 
         <div className="relative mt-16 mb-16 min-h-[420px] flex items-center justify-center">
           {/* Left Arrow */}
