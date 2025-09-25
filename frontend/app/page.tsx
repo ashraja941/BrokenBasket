@@ -99,9 +99,10 @@ export default function Dashboard() {
           </h1>
         </header>
         
-        {/* Guidance line */}
-        <div className="text-center text-sm text-gray-600 mt-2 mb-4">
-          Want to change your meal plan? Use the <span className="text-[#DA8359] font-medium">Chat</span> button above to request modifications
+        {/* Guidance lines */}
+        <div className="text-center text-sm text-gray-600 mt-2 mb-4 space-y-1">
+        <div>💬 Want to change your meal plan? Use the <span className="text-[#DA8359] font-medium">Chat</span> button above to request modifications</div>
+          <div>⚙️ Need to update your preferences or restrictions? Click the <span className="text-[#6F826A] font-medium">profile button</span> in the top right corner</div>
         </div>
 
         <div className="relative mt-16 mb-16 min-h-[420px] flex items-center justify-center">
