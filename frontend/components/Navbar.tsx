@@ -3,7 +3,7 @@
 import { useRouter, usePathname } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, User } from "lucide-react";
 
 export default function Navbar() {
   const router = useRouter();
@@ -123,8 +123,8 @@ export default function Navbar() {
           </button>
 
           <Dialog.Trigger asChild>
-            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[#6F826A] text-white text-lg font-bold hover:brightness-110">
-              S
+            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-[#6F826A] text-white hover:brightness-110">
+              <User className="w-5 h-5" />
               {/* <img src="/profile.jpg" alt="Profile" className="w-full h-full object-cover" /> */}
             </button>
           </Dialog.Trigger>
