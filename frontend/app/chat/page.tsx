@@ -10,6 +10,10 @@ export default function ChatPage() {
       <main className="pt-20 flex h-[calc(100vh-4rem)] flex-col items-center justify-between px-24">
         <div className="w-full min-w-[600px] flex flex-col gap-4">
           <Chat />
+          {/* Service notice */}
+          <div className="text-xs text-gray-500 text-center">
+            ⚠️ Responses may be slower due to free service limitations
+          </div>
         </div>
       </main>
     </>
